@@ -1,17 +1,12 @@
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+    fun part1(input: List<Int>): Int {
+        return input.mapIndexed { index, i -> if (index > 0 && i > input[index - 1]) 1 else 0 }.sum()
     }
 
-    fun part2(input: List<String>): Int {
-        return input.size
+    fun part2(input: List<Int>): Int {
+        return part1(input.windowed(3, 1, false).map { it.sum() })
     }
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
-    val input = readInput("Day01")
-    println(part1(input))
+    val input = readInput("Day01").map { it.toInt() }
     println(part2(input))
 }
