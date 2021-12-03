@@ -29,10 +29,9 @@ fun main() {
         return hpos * dpos
     }
 
-    val input = readInput("Day02")
-        .map {
-            Pair(it.substring(0, it.indexOf(" ")), it.substring(it.indexOf(" ") + 1).toInt())
-        }
+    val input = readInput("Day02_test")
+        .map { it.split(" ") }
+        .map { Pair(it.get(0), it.get(1).toInt()) }
     println(input)
     println(part2(input))
 }
