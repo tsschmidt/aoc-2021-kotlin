@@ -1,3 +1,7 @@
+package day3
+
+import readInput
+
 fun main() {
 
     fun part1(input: List<String>): Int {
@@ -29,6 +33,6 @@ fun main() {
         return o2 * c2
     }
 
-    val input = readInput("Day03_test")
+    val input = readInput("day3/test")
     println(part1(input))
 }

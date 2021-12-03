@@ -1,3 +1,7 @@
+package day2
+
+import readInput
+
 fun main() {
     fun part1(input: List<Pair<String, Int>>): Int {
         var hpos = 0;
@@ -29,7 +33,7 @@ fun main() {
         return hpos * dpos
     }
 
-    val input = readInput("Day02_test")
+    val input = readInput("day2/test")
         .map { it.split(" ") }
         .map { Pair(it.get(0), it.get(1).toInt()) }
     println(input)
