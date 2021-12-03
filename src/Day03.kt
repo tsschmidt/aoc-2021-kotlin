@@ -1,17 +1,10 @@
 fun main() {
+
     fun part1(input: List<String>): Int {
         val split = input.map { it.toList() }
-        var gamma = ""
-        var epsilon = ""
-        for (i in 0 until split[0].size) {
-           if (split.map { it[i] }.count { a -> a == '1' } > input.size / 2) {
-               gamma += "1"
-               epsilon += "0"
-           } else {
-               gamma += "0"
-               epsilon += "1"
-           }
-        }
+        val pred: (Int) -> String = { i -> if (split.map { it[i] }.count { a -> a == '1' } > input.size / 2) "1" else "0" }
+        val gamma = (0 until split[0].size).joinToString("", transform = pred)
+        val epsilon = gamma.map { if (it == '1') "0" else "1" }.joinToString("")
         return gamma.toInt(2) * epsilon.toInt(2)
     }
 
