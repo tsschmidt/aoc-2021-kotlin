@@ -54,14 +54,7 @@ data class Cell(val id: Int, var marked: Boolean = false)
 
 data class Card(val id: Int, val cells: List<List<Cell>>) {
 
-    val columns = mutableListOf<MutableList<Cell>>().also {
-        for(i in 0 until 5) {
-            it.add(mutableListOf())
-            for (j in 0 until 5) {
-                it[i].add(cells[j][i])
-            }
-        }
-    }
+    private val columns = (0 until cells[0].size).map { i -> cells.map { it[i] } }
 
     fun mark (drawn: Int) {
         cells.flatten().firstOrNull { c -> c.id == drawn }?.let { it.marked = true }
