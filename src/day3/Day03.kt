@@ -13,17 +13,15 @@ fun main() {
     }
 
     fun oxygen(ratings : List<List<Char>>, index: Int): List<Char> {
-        val cnt = ratings.count { it[index] == '1' }
-        val pred = if (cnt >= ratings.size - cnt) '1' else '0'
-        val f = ratings.filter { it[index] == pred }
-        return if (f.size == 1) f[0] else oxygen(f, index + 1)
+        val cnt = ratings.partition { it[index] == '1' }
+            .let { (ones, zeros) -> if (ones.size >= zeros.size) ones else zeros }
+        return if (cnt.size == 1) cnt[0] else oxygen(cnt, index + 1)
     }
 
     fun co2(ratings : List<List<Char>>, index: Int): List<Char> {
-        val cnt = ratings.count { it[index] == '0' }
-        val pred = if (cnt <= ratings.size - cnt) '0' else '1'
-        val f = ratings.filter { it[index] == pred }
-        return if (f.size == 1) f[0] else co2(f, index + 1)
+        val cnt = ratings.partition { it[index] == '0' }
+            .let { (zeros, ones) -> if (zeros.size <= ones.size) zeros else ones }
+        return if (cnt.size == 1) cnt[0] else co2(cnt, index + 1)
     }
 
     fun part2(input: List<String>): Int {
@@ -33,6 +31,6 @@ fun main() {
         return o2 * c2
     }
 
-    val input = readInput("day3/test")
-    println(part1(input))
+    val input = readInput("day3/data")
+    println(part2(input))
 }
