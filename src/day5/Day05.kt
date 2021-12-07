@@ -14,44 +14,14 @@ fun main() {
 
     fun part1(input: List<Line>): Int {
         val grid = mutableMapOf<Coord, Int>()
-        input.forEach {
-            when {
-                it.run == 0 -> {
-                    for (i in 0..abs(it.rise)) {
-                        increment(grid, it.x1 to it.y1 + (i * it.yDir))
-                    }
-                }
-                it.rise == 0 -> {
-                    for (i in 0..abs(it.run)) {
-                        increment(grid, it.x1 + (i * it.xDir) to it.y1)
-                    }
-                }
-            }
-        }
+        input.filter { it.run == 0 || it.rise == 0 }
+            .forEach { it.points().forEach { pt -> increment(grid, pt) } }
         return grid.count { it.value > 1 }
     }
 
     fun part2(input: List<Line>): Int {
         val grid = mutableMapOf<Coord, Int>()
-        input.forEach {
-            when {
-                it.run == 0 -> {
-                    for (i in 0..abs(it.rise)) {
-                        increment(grid, it.x1 to it.y1 + (i * it.yDir))
-                    }
-                }
-                it.rise == 0 -> {
-                    for (i in 0..abs(it.run)) {
-                        increment(grid, it.x1 + (i * it.xDir) to it.y1)
-                    }
-                }
-                abs(it.slope) == 1 -> {
-                    for(i in 0..abs(it.run)) {
-                        increment(grid, it.x1 + (i * it.xDir) to it.y1 + (i * it.yDir))
-                    }
-                }
-            }
-        }
+        input.forEach { it.points().forEach { pt -> increment(grid, pt) } }
         return grid.count { it.value > 1 }
     }
 
@@ -74,4 +44,13 @@ data class Line(val p1: Coord, val p2: Coord) {
     val xDir = if (run > 0) 1 else -1
     val yDir = if (rise > 0) 1 else -1
     val slope = if (run != 0 && rise != 0) run / rise else 0
+
+    fun points(): List<Coord> {
+        return when {
+            run == 0 -> (0..abs(rise)).map { x1 to y1 + (it * yDir) }
+            rise == 0 -> (0..abs(run)).map { x1 + (it * xDir) to y1 }
+            abs(slope) == 1 -> (0..abs(run)).map { x1 + (it * xDir) to y1 + (it * yDir) }
+            else -> listOf()
+        }
+    }
 }
