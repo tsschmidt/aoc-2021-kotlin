@@ -1,6 +1,6 @@
 package day6
 
-import readInput
+import readInts
 
 fun main() {
 
@@ -22,10 +22,6 @@ fun main() {
     }
 
     val init = mutableListOf<Long>(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L)
-    readInput("day6/data")
-        .map { it.split(",") }
-        .flatten()
-        .map { it.toInt() }
-        .forEach { init[it]++ }
+    readInts("day6/data").forEach { init[it]++ }
     println(part2(init))
 }

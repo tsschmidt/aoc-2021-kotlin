@@ -1,6 +1,6 @@
 package day7
 
-import readInput
+import readInts
 import kotlin.math.abs
 
 fun main() {
@@ -17,6 +17,6 @@ fun main() {
             .minOf { it }
     }
 
-    val input = readInput("day7/test").map { it.split(",") }.flatten().map { it.toInt() }
+    val input = readInts("day7/test")
     println(part2(input))
 }
