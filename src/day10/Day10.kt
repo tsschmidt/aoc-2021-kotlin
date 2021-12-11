@@ -7,49 +7,47 @@ fun main() {
     fun part1(input: List<String>): Int {
         val corrupt = mutableListOf<Char>()
         for (i in input) {
-            val curOpen = mutableListOf<Char>()
+            val stack = mutableListOf<Char>()
             loop@ for (j in i.toList()) {
-                if ((curOpen.isEmpty() && j !in chunks.keys)) {
+                if (j in chunks.keys) {
+                    stack.add(j)
+                    continue
+                }
+                if ((stack.isEmpty() && j !in chunks.keys)) {
                     corrupt.add(j)
                     break@loop
                 }
-                if (j in chunks.keys) {
-                    curOpen.add(j)
-                } else {
-                    if (j != chunks[curOpen.last()]) {
-                        corrupt.add(j)
-                        break@loop
-                    } else {
-                        curOpen.removeLast()
-                    }
+                if (j != chunks[stack.last()]) {
+                    corrupt.add(j)
+                    break@loop
                 }
+                stack.removeLast()
             }
         }
         return corrupt.sumOf { points[it] ?: 0 }
     }
 
     fun part2(input: List<String>): Long {
-        val ends = mutableListOf<List<Char>>();
+        val ends = mutableListOf<List<Char>>()
         for (i in input) {
-            val curOpen = mutableListOf<Char>()
+            val stack = mutableListOf<Char>()
             loop@ for (j in i.toList()) {
-                if (curOpen.isEmpty() && j !in chunks.keys) {
-                    curOpen.clear()
+                if (j in chunks.keys) {
+                    stack.add(j)
+                    continue
+                }
+                if (stack.isEmpty() && j !in chunks.keys) {
+                    stack.clear()
                     break@loop
                 }
-                if (j in chunks.keys) {
-                    curOpen.add(j)
-                } else {
-                    if (j != chunks[curOpen.last()]) {
-                        curOpen.clear()
-                        break@loop
-                    } else {
-                        curOpen.removeLast()
-                    }
+                if (j != chunks[stack.last()]) {
+                    stack.clear()
+                    break@loop
                 }
+                stack.removeLast()
             }
-            if (curOpen.isNotEmpty()) {
-                ends.add(curOpen.map { chunks[it]!! }.reversed())
+            if (stack.isNotEmpty()) {
+                ends.add(stack.map { chunks[it]!! }.reversed())
             }
         }
         val mapped = ends.map { e -> e.map { endPoints[it] } }
